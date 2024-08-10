@@ -26,15 +26,13 @@ public class Main {
             throw new RuntimeException("Не указаны пути");
         }
 
-        List<String> dataLines = Files.readAllLines(Paths.get(args[0]));
-
         File file = new File(args[1]);
         if (!file.isDirectory()) {
             throw new RuntimeException("Укажите директорию для сохранения файла");
         }
-
         String outputPath = file.getAbsolutePath() + "/inventory-cards.pdf";
 
+        List<String> dataLines = Files.readAllLines(Paths.get(args[0]));
         exportToPdf(dataLines, outputPath);
 
 
@@ -50,7 +48,6 @@ public class Main {
         PdfWriter.getInstance(document, new FileOutputStream(path));
 
         document.open();
-
         PdfPTable table = new PdfPTable(3);
         table.setWidthPercentage(100);
         data.forEach(l -> addCard(table, l, font));
