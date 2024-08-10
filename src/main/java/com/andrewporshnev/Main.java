@@ -34,19 +34,26 @@ public class Main {
         }
 
         String outputPath = file.getAbsolutePath() + "/inventory-cards.pdf";
+
+        exportToPdf(dataLines, outputPath);
+
+
+
+    }
+
+    private static void exportToPdf(List<String> data, String path) throws DocumentException, IOException {
         Document document = new Document();
         document.setMargins(20, 20, 20, 20);
 
         BaseFont baseFont = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         Font font = new Font(baseFont, 12, Font.NORMAL);
-        PdfWriter.getInstance(document, new FileOutputStream(outputPath));
+        PdfWriter.getInstance(document, new FileOutputStream(path));
 
         document.open();
 
         PdfPTable table = new PdfPTable(3);
         table.setWidthPercentage(100);
-        dataLines.forEach(l -> addCard(table, l, font));
-
+        data.forEach(l -> addCard(table, l, font));
         document.add(table);
         document.close();
     }
