@@ -26,9 +26,11 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws IOException, DocumentException {
         List<Device> data = getData();
+
         if (data.isEmpty()) {
             throw new RuntimeException("Нет данных для экспорта");
         }
+
         exportToPdf(data);
     }
 
