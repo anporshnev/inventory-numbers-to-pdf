@@ -19,35 +19,24 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-
     public static void main(String[] args) throws IOException, DocumentException {
-//        if (args.length < 2) {
-//            throw new RuntimeException("Не указаны пути");
-//        }
-//
-//        File file = new File(args[1]);
-//        if (!file.isDirectory()) {
-//            throw new RuntimeException("Не указана директория для сохранения файла");
-//        }
-
-        List<Device> data = getData("data.xlsx");
+        List<Device> data = getData();
         if (data.isEmpty()) {
             throw new RuntimeException("Нет данных для экспорта");
         }
-
-        String outputPath = "inventory-cards.pdf";
-        exportToPdf(data, outputPath);
+        exportToPdf(data);
     }
 
-    private static List<Device> getData(String path) throws IOException {
+    private static List<Device> getData() throws IOException {
         List<Device> data = new ArrayList<>();
         DataFormatter formatter = new DataFormatter();
 
-        try (Workbook workbook = WorkbookFactory.create(new File(path))) {
+        try (Workbook workbook = WorkbookFactory.create(new File("data.xlsx"))) {
             Sheet sheet = workbook.getSheetAt(0);
             for (Row row : sheet) {
                 String[] targetRowItems = new String[2];
@@ -60,13 +49,20 @@ public class Main {
         return data;
     }
 
-    private static void exportToPdf(List<Device> data, String path) throws DocumentException, IOException {
+    private static void exportToPdf(List<Device> data) throws DocumentException, IOException {
         Document document = new Document();
         document.setMargins(20, 20, 20, 20);
 
-        String FONT = "src/main/resources/ArialRegular.ttf";
-        BaseFont baseFont = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        PdfWriter.getInstance(document, new FileOutputStream(path));
+        InputStream is = Main.class.getResourceAsStream("/ArialRegular.ttf");
+
+        if (is == null) {
+            throw new RuntimeException("Не найден файл шрифта");
+        }
+
+        byte[] bytes = is.readAllBytes();
+        BaseFont baseFont = BaseFont.createFont("ArialRegular.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED,
+                true, bytes, null);
+        PdfWriter.getInstance(document, new FileOutputStream("inventory-stickers.pdf"));
 
         document.open();
         PdfPTable table = new PdfPTable(3);
