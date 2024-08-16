@@ -57,6 +57,7 @@ public class Main {
         Document document = new Document();
         document.setMargins(20, 20, 20, 20);
 
+        //Используем stream для того, чтобы ресурс был доступен также при запуске jar
         InputStream is = Main.class.getResourceAsStream("/ArialRegular.ttf");
 
         if (is == null) {
