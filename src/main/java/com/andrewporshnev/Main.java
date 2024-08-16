@@ -107,13 +107,12 @@ public class Main {
     }
 
     private static void printNotifyMessage() {
-        StringBuilder sb = new StringBuilder();
         String message = "Экспорт успешно завершен!";
-        sb.append("-".repeat(message.length()));
-        sb.append("\n");
-        sb.append(message);
-        sb.append("\n");
-        sb.append("-".repeat(message.length()));
+        String sb = "-".repeat(message.length()) +
+                "\n" +
+                message +
+                "\n" +
+                "-".repeat(message.length());
         System.out.print(sb);
     }
 }
