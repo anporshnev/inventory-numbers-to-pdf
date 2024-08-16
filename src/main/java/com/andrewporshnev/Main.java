@@ -32,6 +32,7 @@ public class Main {
         }
 
         exportToPdf(data);
+        printNotifyMessage();
     }
 
     private static List<Device> getData() throws IOException {
@@ -45,6 +46,7 @@ public class Main {
                 for (int i = 0; i < 2; i++) {
                     targetRowItems[i] = formatter.formatCellValue(row.getCell(i));
                 }
+                if (targetRowItems[0].isBlank()) continue;
                 data.add(new Device(targetRowItems[0], targetRowItems[1]));
             }
         }
@@ -102,5 +104,16 @@ public class Main {
         innerTable.addCell(descriptionCell);
 
         table.addCell(parentCell);
+    }
+
+    private static void printNotifyMessage() {
+        StringBuilder sb = new StringBuilder();
+        String message = "Экспорт успешно завершен!";
+        sb.append("-".repeat(message.length()));
+        sb.append("\n");
+        sb.append(message);
+        sb.append("\n");
+        sb.append("-".repeat(message.length()));
+        System.out.print(sb);
     }
 }
