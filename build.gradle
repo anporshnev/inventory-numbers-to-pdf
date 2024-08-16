@@ -9,6 +9,13 @@ repositories {
     mavenCentral()
 }
 
+tasks.register('install', Copy) {
+    from('.')
+    into 'build/libs'
+    include('data.xlsx')
+    dependsOn(tasks.build)
+}
+
 jar {
     archiveFileName = 'inventory-stickers.jar'
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
