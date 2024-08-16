@@ -71,12 +71,14 @@ public class Main {
         document.open();
         PdfPTable table = new PdfPTable(3);
         table.setWidthPercentage(100);
-        data.forEach(device -> addCell(table, device, baseFont));
+        data.forEach(device -> table.addCell(computeCell(device, baseFont)));
+        table.getDefaultCell().setBorderWidth(0);
+        table.completeRow();
         document.add(table);
         document.close();
     }
 
-    private static void addCell(PdfPTable table, Device device, BaseFont baseFont) {
+    private static PdfPCell computeCell(Device device, BaseFont baseFont) {
         Font mainFont = new Font(baseFont, 14, Font.NORMAL);
         Font descriptionFont = new Font(baseFont, 9, Font.NORMAL);
 
@@ -103,7 +105,7 @@ public class Main {
         innerTable.addCell(numberCell);
         innerTable.addCell(descriptionCell);
 
-        table.addCell(parentCell);
+        return parentCell;
     }
 
     private static void printNotifyMessage() {
