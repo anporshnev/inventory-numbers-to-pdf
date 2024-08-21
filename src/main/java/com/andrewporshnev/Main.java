@@ -116,6 +116,6 @@ public class Main {
                 message +
                 "\n" +
                 "-".repeat(message.length());
-        System.out.print(sb);
+        System.out.println(sb);
     }
 }
